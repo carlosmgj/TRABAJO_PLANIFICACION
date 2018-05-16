@@ -76,11 +76,11 @@ int main(int argc, char **argv)
     ros::init(argc,argv,"prueba_movimiento");    //Registrar el nombre del nodo
     geometry_msgs::Twist msgAEnviar;
     SubscribeAndPublish SAPObject;
-    posicion_goal.x=0;
-    posicion_goal.y=0;
+    posicion_goal.x= posicion.x;
+    posicion_goal.y=posicion.y;
 
     int intervalo=1;
-
+    double hipotenusa;
     while(ros::ok)
     {
 
@@ -101,31 +101,18 @@ int main(int argc, char **argv)
             else
             {
                 msgAEnviar.angular.z =0;
-                /*
-                * Si el turtlebot esta por debajo del punto x e y ( abajo o izquierda) corremos hasta que llega un poco por debajo del punto
-                  Si el turtlebot está por encima del punto x e y (encima o derecha) corremos hasya que llega un poco por endima del punto
-
-                */
-                if((posicion.x<posicion_goal.x)or(posicion.y<posicion_goal.y))
+                hipotenusa=sqrt(pow((posicion_goal.x-posicion.x),2)+pow((posicion_goal.y-posicion.y),2));
+                if(hipotenusa>0.05)
                 {
-                  if((posicion.x<posicion_goal.x-0.5)or(posicion.y<posicion_goal.y-0.5))
-                  {
-                    msgAEnviar.linear.x = 0.5;
-                  }else
-                  {
-                  msgAEnviar.linear.x =0;
-                  }
+                      msgAEnviar.linear.x = 0.5;
+                      cout<<"No estoy en mi sitio"<<endl;
                 }
-                else if((posicion.x>posicion_goal.x)or(posicion.y>posicion_goal.y))
+                else
                 {
-                  if((posicion.x>posicion_goal.x+0.5)or(posicion.y>posicion_goal.y+0.5))
-                  {
-                    msgAEnviar.linear.x = 0.5;
-                  }else
-                  {
-                  msgAEnviar.linear.x =0;
-                  }
+                        msgAEnviar.linear.x = 0;
+                        cout<<"estoy en mi sitio"<<endl;
                 }
+                cout<< "desde  ("<<posicion.x<<","<<posicion.y<<") hasta ("<<posicion_goal.x<<","<<posicion_goal.y<<") hay una distancia de:  "<<hipotenusa<<endl;
             }
             SAPObject.movimiento.publish(msgAEnviar);
 
