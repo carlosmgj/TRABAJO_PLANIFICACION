@@ -101,13 +101,30 @@ int main(int argc, char **argv)
             else
             {
                 msgAEnviar.angular.z =0;
+                /*
+                * Si el turtlebot esta por debajo del punto x e y ( abajo o izquierda) corremos hasta que llega un poco por debajo del punto
+                  Si el turtlebot está por encima del punto x e y (encima o derecha) corremos hasya que llega un poco por endima del punto
+
+                */
                 if((posicion.x<posicion_goal.x)or(posicion.y<posicion_goal.y))
                 {
-                  msgAEnviar.linear.x = 0.5;
+                  if((posicion.x<posicion_goal.x-0.5)or(posicion.y<posicion_goal.y-0.5))
+                  {
+                    msgAEnviar.linear.x = 0.5;
+                  }else
+                  {
+                  msgAEnviar.linear.x =0;
+                  }
                 }
-                else
+                else if((posicion.x>posicion_goal.x)or(posicion.y>posicion_goal.y))
                 {
-                msgAEnviar.linear.x =0;
+                  if((posicion.x>posicion_goal.x+0.5)or(posicion.y>posicion_goal.y+0.5))
+                  {
+                    msgAEnviar.linear.x = 0.5;
+                  }else
+                  {
+                  msgAEnviar.linear.x =0;
+                  }
                 }
             }
             SAPObject.movimiento.publish(msgAEnviar);
@@ -116,10 +133,3 @@ int main(int argc, char **argv)
         ros::spinOnce();
     }
 }
-
-
-
-
-
-
-
