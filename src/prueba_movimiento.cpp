@@ -15,7 +15,7 @@ double vel_angular=0.5;
 double angulo;
 double angulo_goal=0;
 int direccion;
-int intervalo=10;
+
 
 void girar();
 
@@ -75,24 +75,24 @@ int main(int argc, char **argv)
 {
     ros::init(argc,argv,"prueba_movimiento");    //Registrar el nombre del nodo
     geometry_msgs::Twist msgAEnviar;
-    geometry_msgs::Twist msgpose;
     SubscribeAndPublish SAPObject;
     posicion_goal.x=0;
     posicion_goal.y=0;
+
+    int intervalo=1;
+
     while(ros::ok)
     {
 
 
             if(angulo<angulo_goal-intervalo)                       //ANGULO ACTUAL MENOR QUE FINAL
             {
-                  ROS_INFO("No estoy en mi angulo");
                   msgAEnviar.angular.z = 0.5;
                   if(angulo_goal-angulo>180)
                       msgAEnviar.angular.z=-msgAEnviar.angular.z;
             }
             else if(angulo>angulo_goal+intervalo)               //ANGULO ACTUAL MAYOR QUE FINAL
             {
-                  ROS_INFO("No estoy en mi angulo");
                   msgAEnviar.angular.z = -0.5;
                   if(angulo-angulo_goal>180)
                      msgAEnviar.angular.z = -msgAEnviar.angular.z;
@@ -101,30 +101,16 @@ int main(int argc, char **argv)
             else
             {
                 msgAEnviar.angular.z =0;
-                 ROS_INFO("YA SI");
+                if((posicion.x<posicion_goal.x)or(posicion.y<posicion_goal.y))
+                {
+                  msgAEnviar.linear.x = 0.5;
+                }
+                else
+                {
+                msgAEnviar.linear.x =0;
+                }
             }
             SAPObject.movimiento.publish(msgAEnviar);
-
-
-            if(posicion.x<posicion_goal.x-1)                       //ANGULO ACTUAL MENOR QUE FINAL
-            {
-
-                  ROS_INFO("No estoy en mi posicion");
-                  msgpose.linear.x = 0.5;
-            }
-            else if(posicion.y<posicion_goal.y-1)               //ANGULO ACTUAL MAYOR QUE FINAL
-            {
-
-                  ROS_INFO("No estoy en mi posicion");
-                  msgpose.linear.x = -0.5;
-            }
-
-            else
-            {
-                msgpose.linear.x =0;
-                ROS_INFO("YA SI");
-            }
-            SAPObject.movimiento.publish(msgpose);
 
 
         ros::spinOnce();
