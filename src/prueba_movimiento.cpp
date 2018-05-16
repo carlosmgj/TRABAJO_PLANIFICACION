@@ -84,7 +84,11 @@ int main(int argc, char **argv)
     while(ros::ok)
     {
 
-
+            angulo_goal=atan2(posicion_goal.y-posicion.y,posicion_goal.x-posicion.x);
+            angulo_goal=angulo_goal * (180.0/3.141592653589793238463);
+            if (angulo_goal < 0)
+                      angulo_goal = angulo_goal + 360;
+            cout<<"El angulo calculado es"<<angulo_goal<<endl;
             if(angulo<angulo_goal-intervalo)                       //ANGULO ACTUAL MENOR QUE FINAL
             {
                   msgAEnviar.angular.z = 0.5;
@@ -105,14 +109,14 @@ int main(int argc, char **argv)
                 if(hipotenusa>0.05)
                 {
                       msgAEnviar.linear.x = 0.5;
-                      cout<<"No estoy en mi sitio"<<endl;
+                      //cout<<"No estoy en mi sitio"<<endl;
                 }
                 else
                 {
                         msgAEnviar.linear.x = 0;
-                        cout<<"estoy en mi sitio"<<endl;
+                       // cout<<"estoy en mi sitio"<<endl;
                 }
-                cout<< "desde  ("<<posicion.x<<","<<posicion.y<<") hasta ("<<posicion_goal.x<<","<<posicion_goal.y<<") hay una distancia de:  "<<hipotenusa<<endl;
+               // cout<< "desde  ("<<posicion.x<<","<<posicion.y<<") hasta ("<<posicion_goal.x<<","<<posicion_goal.y<<") hay una distancia de:  "<<hipotenusa<<endl;
             }
             SAPObject.movimiento.publish(msgAEnviar);
 
