@@ -1,15 +1,18 @@
 #include "ros/ros.h"
-
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 #include "geometry_msgs/Point.h"
 #include "tf/tf.h"
 #include "std_msgs/Int32.h"
+#include "std_msgs/Empty.h"
+
 using namespace std;
 
 geometry_msgs::Point posicion;
 geometry_msgs::Point posicion_goal;
 geometry_msgs::Point posicion_inicial;
+geometry_msgs::Point posicion_anterior;
+std_msgs::Empty llegado;
 double vel_lineal=0.5;
 double vel_angular=0.5;
 double angulo;
@@ -32,7 +35,7 @@ public:
     odometria = nodo.subscribe("odom",1,&SubscribeAndPublish::odomCallback,this);
     angulo_objetivo = nodo.subscribe("goal_angle",1,&SubscribeAndPublish::goal_angleCallback,this);
     coordenadas_objetivo=nodo.subscribe("goal_pose",1,&SubscribeAndPublish::goal_poseCallback,this);
-
+    responder=nodo.advertise<std_msgs::Empty>("respuesta",1);
   }
   void goal_angleCallback(const std_msgs::Int32::ConstPtr& msg1)
   {
@@ -67,7 +70,7 @@ public:
   ros::Subscriber odometria;
   ros::Subscriber angulo_objetivo;
   ros::Subscriber coordenadas_objetivo;
-
+  ros::Publisher responder;
 
 };
 
@@ -78,43 +81,64 @@ int main(int argc, char **argv)
     SubscribeAndPublish SAPObject;
     posicion_goal.x= posicion.x;
     posicion_goal.y=posicion.y;
-
+    posicion_anterior.x=posicion.x;
+    posicion_anterior.y=posicion.y;
     int intervalo=1;
     double hipotenusa;
+    double recorrido;
+    double danterior;
     while(ros::ok)
     {
 
             angulo_goal=atan2(posicion_goal.y-posicion.y,posicion_goal.x-posicion.x);
             angulo_goal=angulo_goal * (180.0/3.141592653589793238463);
+            recorrido=sqrt(pow((posicion.x-0),2)+pow((posicion.y-0),2));
+
             if (angulo_goal < 0)
                       angulo_goal = angulo_goal + 360;
             cout<<"El angulo calculado es"<<angulo_goal<<endl;
+
+
             if(angulo<angulo_goal-intervalo)                       //ANGULO ACTUAL MENOR QUE FINAL
             {
                   msgAEnviar.angular.z = 0.5;
                   if(angulo_goal-angulo>180)
                       msgAEnviar.angular.z=-msgAEnviar.angular.z;
+                  if(recorrido>1)
+                   msgAEnviar.linear.x = 0.1;
             }
             else if(angulo>angulo_goal+intervalo)               //ANGULO ACTUAL MAYOR QUE FINAL
             {
                   msgAEnviar.angular.z = -0.5;
                   if(angulo-angulo_goal>180)
                      msgAEnviar.angular.z = -msgAEnviar.angular.z;
+                    if(recorrido>1)
+                   msgAEnviar.linear.x = 0.1;
             }
 
             else
             {
                 msgAEnviar.angular.z =0;
                 hipotenusa=sqrt(pow((posicion_goal.x-posicion.x),2)+pow((posicion_goal.y-posicion.y),2));
+                danterior=sqrt(pow((posicion.x-posicion_anterior.x),2)+pow((posicion.y-posicion_anterior.y),2));
                 if(hipotenusa>0.05)
                 {
                       msgAEnviar.linear.x = 0.5;
-                      //cout<<"No estoy en mi sitio"<<endl;
+                      cout<<"~"<<endl;
+                      if((hipotenusa<0.1)and(recorrido>1)and(danterior>1))
+                      {
+                        SAPObject.responder.publish(llegado);
+                        ROS_INFO("ARRIVED");
+                        posicion_anterior.x=posicion_goal.x;
+                        posicion_anterior.y=posicion_goal.y;
+                        msgAEnviar.linear.x = 0.2;
+                      }
                 }
                 else
                 {
                         msgAEnviar.linear.x = 0;
                        // cout<<"estoy en mi sitio"<<endl;
+
                 }
                // cout<< "desde  ("<<posicion.x<<","<<posicion.y<<") hasta ("<<posicion_goal.x<<","<<posicion_goal.y<<") hay una distancia de:  "<<hipotenusa<<endl;
             }

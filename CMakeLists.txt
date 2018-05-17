@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,11 +49,12 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
+ add_message_files(
+   FILES
+ #  Message1.msg
 #   Message2.msg
-# )
+    path.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -72,6 +74,7 @@ find_package(catkin REQUIRED COMPONENTS
  generate_messages(
    DEPENDENCIES
    std_msgs
+   geometry_msgs
  )
 
 ################################################
@@ -137,6 +140,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/planificacion_pkg_node.cpp)
 add_executable(prueba_movimiento src/prueba_movimiento.cpp)
 add_executable(MostrarOdom src/MostrarOdom.cpp)
+add_executable(Secuenciador src/Secuenciador.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -157,7 +161,9 @@ target_link_libraries(prueba_movimiento
 target_link_libraries(MostrarOdom
     ${catkin_LIBRARIES}
  )
-
+target_link_libraries(Secuenciador
+    ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############
