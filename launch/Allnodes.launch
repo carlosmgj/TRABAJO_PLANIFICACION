@@ -1,6 +1,14 @@
 <launch>
+ 	<arg name="map_name"  default="map1"/>
+  	<arg name="x"  default="2.5"/>
+  	<arg name="y"  default="2.5"/>
+  
+  	<!-- Gazebo -->
+  	<include file="$(find turtlebot_gazebo)/launch/map1_world.launch">
+	</include>
+
 	<node pkg="planificacion_pkg" name="MostrarOdom" type="MostrarOdom" respawn="true" output="log" launch-prefix="xterm -e"/>
-	<node pkg="planificacion_pkg" name="mandar_camino" type="MostrarOdom" respawn="true" output="log" launch-prefix="xterm -e"/>
-	<node pkg="planificacion_pkg" name="prueba_movimiento" type="MostrarOdom" respawn="true" output="log" /> //launch-prefix="xterm -e"/>
-	<node pkg="planificacion_pkg" name="Secuenciador" type="MostrarOdom" respawn="true" output="log" /> //launch-prefix="xterm -e"/>
+	<node pkg="planificacion_pkg" name="mandar_camino" type="mandar_camino" respawn="true" output="log" launch-prefix="xterm -e"/>
+	<node pkg="planificacion_pkg" name="prueba_movimiento" type="prueba_movimiento" respawn="true" output="log" launch-prefix="xterm -e"/>
+	<node pkg="planificacion_pkg" name="Secuenciador" type="Secuenciador" respawn="true" output="log" launch-prefix="xterm -e"/>
 </launch>

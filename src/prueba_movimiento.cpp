@@ -111,16 +111,16 @@ int main(int argc, char **argv)
                   msgAEnviar.angular.z = 0.7;
                   if(angulo_goal-angulo>180)
                       msgAEnviar.angular.z=-msgAEnviar.angular.z;
-                  if(recorrido>1){}
-                   //msgAEnviar.linear.x = 0.1;
+                  if(recorrido>0.8){}
+                   msgAEnviar.linear.x = 0.1;
             }
             else if(angulo>angulo_goal+intervalo)
             {
                   msgAEnviar.angular.z = -0.7;
                   if(angulo-angulo_goal>180)
                      msgAEnviar.angular.z = -msgAEnviar.angular.z;
-                    if(recorrido>1){}
-                   //msgAEnviar.linear.x = 0.1;
+                    if(recorrido>0.8){}
+                    msgAEnviar.linear.x = 0.1;
             }
             /*######################################################################
              *                   SI NO ESTÁ EN SU POSICION
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
                 danterior=sqrt(pow((posicion.x-posicion_anterior.x),2)+pow((posicion.y-posicion_anterior.y),2));
                 if(hipotenusa>0.05)
                 {
-                      msgAEnviar.linear.x = 0.3;
+                      msgAEnviar.linear.x = 0.3; //velocidadcrucero
                       cout<<"~"<<endl;
                       if((hipotenusa<0.4)and(recorrido>0.5)and(danterior>0.5))
                       {
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
                         ROS_INFO("ARRIVED");
                         posicion_anterior.x=posicion_goal.x;
                         posicion_anterior.y=posicion_goal.y;
-                        msgAEnviar.linear.x = 0.05;
+                        msgAEnviar.linear.x = 0.05; //velocidadgiro
                       }
                 }
                 else
