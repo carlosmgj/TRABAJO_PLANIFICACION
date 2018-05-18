@@ -141,6 +141,7 @@ include_directories(
 add_executable(prueba_movimiento src/prueba_movimiento.cpp)
 add_executable(MostrarOdom src/MostrarOdom.cpp)
 add_executable(Secuenciador src/Secuenciador.cpp)
+add_executable(mandar_camino src/mandar_camino.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -162,6 +163,9 @@ target_link_libraries(MostrarOdom
     ${catkin_LIBRARIES}
  )
 target_link_libraries(Secuenciador
+    ${catkin_LIBRARIES}
+)
+target_link_libraries(mandar_camino
     ${catkin_LIBRARIES}
 )
 #############
