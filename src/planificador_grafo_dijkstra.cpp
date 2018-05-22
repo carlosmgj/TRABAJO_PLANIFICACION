@@ -273,7 +273,7 @@ void calcular_camino()
                 }
             }
 
-           //Dibujar matriz de relaciones
+           /*Dibujar matriz de relaciones
             for(int i=0;i<vectoresquinas.size();i++)
             {
                 for(int j=0;j<vectoresquinas.size();j++)
@@ -281,8 +281,7 @@ void calcular_camino()
                     cout<<m_r[i][j]<<" _ ";
                 }
                 cout<<endl;
-            }
-            int a; cin >> a;
+            }*/
             
             //#################################PLANIFICADOR
 
