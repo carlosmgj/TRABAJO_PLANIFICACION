@@ -1,0 +1,9 @@
+std_msgs/UInt16MultiArray mapa
+geometry_msgs/Point nodoinicial
+geometry_msgs/Point nodofinal
+
+---
+
+std_msgs/Int32 respuesta
+
+

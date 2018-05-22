@@ -11,8 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  message_generation
   geometry_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,17 +51,16 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
  add_message_files(
    FILES
- #  Message1.msg
-#   Message2.msg
-    path.msg
-)
+   path.msg
+ )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   FILES
+   lectura_mapa.srv
+   modificar_mapa.srv
+   type_obstaculo.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -140,9 +139,16 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/planificacion_pkg_node.cpp)
 add_executable(prueba_movimiento src/prueba_movimiento.cpp)
 add_executable(MostrarOdom src/MostrarOdom.cpp)
+add_executable(lector_mapa_csv src/lector_mapa_csv.cpp)
+add_executable(detectar_esquinas src/detectar_esquinas.cpp)
+add_executable(planificador_dijkstra src/planificador_dijkstra.cpp)
+add_executable(planificador_aestrella src/planificador_aestrella.cpp)
+add_executable(planificador_grafo_dijkstra src/planificador_grafo_dijkstra.cpp)
+add_executable(offset_camino src/offset_camino.cpp)
 add_executable(Secuenciador src/Secuenciador.cpp)
-add_executable(mandar_camino src/mandar_camino.cpp)
-add_executable(detecta_obstaculos src/detecta_obstaculos.cpp)
+add_executable(servicio_obstaculos src/servicio_obstaculos.cpp)
+
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -163,15 +169,30 @@ target_link_libraries(prueba_movimiento
 target_link_libraries(MostrarOdom
     ${catkin_LIBRARIES}
  )
+target_link_libraries(lector_mapa_csv
+    ${catkin_LIBRARIES}
+ )
+target_link_libraries(detectar_esquinas
+    ${catkin_LIBRARIES}
+ )
+target_link_libraries(planificador_dijkstra
+    ${catkin_LIBRARIES}
+ )
+target_link_libraries(planificador_aestrella
+    ${catkin_LIBRARIES}
+ )
+target_link_libraries(offset_camino
+    ${catkin_LIBRARIES}
+ )
+target_link_libraries(planificador_grafo_dijkstra
+    ${catkin_LIBRARIES}
+ )
 target_link_libraries(Secuenciador
     ${catkin_LIBRARIES}
-)
-target_link_libraries(mandar_camino
+ )
+target_link_libraries(servicio_obstaculos
     ${catkin_LIBRARIES}
-)
-target_link_libraries(detecta_obstaculos
-    ${catkin_LIBRARIES}
-)
+ )
 #############
 ## Install ##
 #############

@@ -1,0 +1,4 @@
+string map_name
+---
+std_msgs/UInt16MultiArray mapa
+geometry_msgs/Point inicio

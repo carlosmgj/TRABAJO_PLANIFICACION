@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="map_name"  value="map4"/>
+  <param name="inicio_x"  value="4"/>
+  <param name="inicio_y"  value="14"/>
+  
+  <!-- Servicios -->
+  <node pkg="planificacion_pkg" name="lector_mapa_csv" type="lector_mapa_csv"/>
+  <node pkg="planificacion_pkg" name="detectar_esquinas" type="detectar_esquinas" output="screen" launch-prefix="xterm -e"/>
+  <node pkg="planificacion_pkg" name="servicio_obstaculos" type="servicio_obstaculos" output="screen" launch-prefix="xterm -e"/>
+  
+  <!-- Planificador -->
+  <node pkg="planificacion_pkg" name="planificador_grafo_dijkstra" type="planificador_grafo_dijkstra" output="screen" launch-prefix="xterm -e"/>
+
+</launch>
