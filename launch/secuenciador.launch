@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- Servicios -->
-  <node pkg="planificacion_pkg" name="lector_mapa_csv" type="lector_mapa_csv"/>
-  
   <!-- Planificador -->
   <node pkg="planificacion_pkg" name="Secuenciador" type="Secuenciador" output="screen" launch-prefix="xterm -e"/>
   <node pkg="planificacion_pkg" name="prueba_movimiento" type="prueba_movimiento" output="screen" launch-prefix="xterm -e"/>
