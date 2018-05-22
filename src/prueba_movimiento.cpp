@@ -134,7 +134,7 @@ int main(int argc, char **argv)
                 {
                       msgAEnviar.linear.x = 0.3;
                       cout<<"~"<<endl;
-                      if((hipotenusa<0.4)and(recorrido>0.5)and(danterior>0.5))
+                      if((hipotenusa<0.2)and(recorrido>0.5)and(danterior>0.5))
                       {
                         SAPObject.responder.publish(llegado);
                         ROS_INFO("ARRIVED");
