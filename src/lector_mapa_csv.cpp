@@ -15,7 +15,14 @@ bool servicio(planificacion_pkg::lectura_mapa::Request &req, planificacion_pkg::
   string line = "";
   int filas_contadas = 0;
   int columnas_contadas = 0;
-  string file_name = "/home/josemanuel/master/robotica_movil/catkin_ws/src/planificacion/worlds/"+req.map_name+".csv";
+  
+  string file_name;
+  if (ros::param::get("/lector_mapa_csv/map_dir", file_name)) ROS_INFO("Recibida dirección correctamente");
+  else{
+	    file_name = "/home/josemanuel/Documentos/master/catkin_ws/src/planificacion/worlds/"+req.map_name+".csv";
+	    ROS_WARN("Usando dirección de mundos por defecto");
+  }
+
 
   ifstream fichero(file_name.c_str());
 	if (fichero.good()) ROS_INFO("Biieeeeeen");

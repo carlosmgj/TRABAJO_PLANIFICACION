@@ -1,12 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="map_name"  value="map1"/>
+
+  <arg name="map_name"  value="map1"/>
+  
   <param name="inicio_x"  value="2"/>
   <param name="inicio_y"  value="2"/>
+  <param name="map_name" value="$(arg map_name)"/>
+  <param name="map_dir" value="$(find planificacion_pkg)/worlds/$(arg map_name).csv"/>
   
   <!-- Servicios -->
-  <node pkg="planificacion_pkg" name="lector_mapa_csv" type="lector_mapa_csv"/>
-  
+  <node pkg="planificacion_pkg" name="lector_mapa_csv" type="lector_mapa_csv" output="screen"/>
   <!-- Planificador -->
   <node pkg="planificacion_pkg" name="planificador_aestrella" type="planificador_aestrella" output="screen" launch-prefix="xterm -e"/>
 

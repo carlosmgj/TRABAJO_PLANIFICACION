@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="map_name"  value="map3"/>
+  <arg name="map_name"  value="map3"/>
+  
+  <param name="map_name" value="$(arg map_name)"/>
+  <param name="map_dir" value="$(find planificacion_pkg)/worlds/$(arg map_name).csv"/>
   <param name="inicio_x"  value="4"/>
   <param name="inicio_y"  value="10"/>
   
