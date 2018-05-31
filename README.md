@@ -13,3 +13,8 @@ Para comenzar el programa:
 		X es el número de mapa
   4) Publicar la casilla con el objetivo final en las coordenadas del mapa csv
 	rostopic pub /goal_point
+
+
+José Manuel Bueno Carmona
+
+Carlos Manuel Gómez Jiménez
